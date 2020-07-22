@@ -1,8 +1,8 @@
 'use strict';
 
-let ip = '192.168.1.35',
-    mask = '255.255.255.0',
-    network;
+let ip = '192.168.1.66',
+    mask = '255.255.255.128',
+    network = [];
 
 function toBinary(item) {
     let arrayItem = item.split('.');
@@ -12,12 +12,39 @@ function toBinary(item) {
     return arrayElement;
 }
 
-console.log(toBinary(ip));
-console.log(toBinary(mask));
+let ipArray = toBinary(ip),
+    maskArray = toBinary(mask),
+    // maskLastOktet = parseInt(parseInt(maskArray[3], 2));
+    maskLastOktet = 25;
 
-let a = parseInt(11000000, 2);
-let b = parseInt(11111111, 2);
+console.log(maskLastOktet);
 
-let c = a & b;
+network[0] = parseInt(ipArray[0], 2) & parseInt(maskArray[0], 2);
+network[1] = parseInt(ipArray[1], 2) & parseInt(maskArray[1], 2);
+network[2] = parseInt(ipArray[2], 2) & parseInt(maskArray[2], 2);
+network[3] = parseInt(ipArray[3], 2) & parseInt(maskArray[3], 2);
 
-console.log(c);
+let totalHost = Math.pow(2, (32-maskLastOktet))-2;
+console.log(totalHost);
+
+let networkAddr = network.join(".");
+let firsAddr = network[3]+1;
+let lastAddr = network[3]+totalHost;
+
+console.log(`Адрес сети ${networkAddr}`);
+console.log(`Адрес минимально возможного хоста ${firsAddr}`);
+console.log(`Адрес максимально возможного хоста ${lastAddr}`);
+
+
+
+// console.log(Math.pow(2 , (32-29)));
+
+// console.log(ipArray);
+// console.log(maskArray);
+
+// let a = parseInt(11000000, 2);
+// let b = parseInt(11111111, 2);
+
+// let c = a & b;
+
+// console.log(c);
